@@ -48,6 +48,7 @@ Run the migration and seeds
 ```bash
 php artisan migrate
 php artisan jwt:secret
+php artisan db:seed
 ```
 
 Run project
