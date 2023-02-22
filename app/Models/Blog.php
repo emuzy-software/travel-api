@@ -4,14 +4,10 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    use SoftDeletes;
-    protected $connection = 'mysql';
-
     protected $table = 'blogs';
 
     protected $fillable = [
@@ -35,14 +31,6 @@ class Blog extends Model
         'release_at' => 'integer',
 
     ];
-
-    protected $appends = [
-        'blog_id'
-    ];
-    public function getBlogIdAttribute()
-    {
-        return $this->slug . '---' . $this->id;
-    }
 
     public function categories(): BelongsToMany
     {

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->index('idx_title_blog');
-            $table->string('slug')->index('idx_slug_blog');
-            $table->string('status')->index('idx_status_blog')->default('pending');
-            $table->tinyInteger('is_active')->default(true)->index('idx_active_blog');
+            $table->string('title');
+            $table->string('slug');
+            $table->string('status')->default('pending');
+            $table->tinyInteger('is_active')->default(true);
             $table->text('content')->nullable();
             $table->text('description')->nullable();
             $table->integer('release_at')->nullable();

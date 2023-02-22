@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->index('idx_title_category');
+            $table->string('title');
             $table->string('slug');
-            $table->tinyInteger('is_active')->default(true)->index('idx_active_category');
+            $table->tinyInteger('is_active')->default(true);
             $table->integer('total_blog')->nullable()->default(0);
             $table->string('image')->nullable();
             $table->string('description')->nullable();

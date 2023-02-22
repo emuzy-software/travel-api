@@ -8,7 +8,7 @@ class Blog_Categories extends Model
 {
     protected $connection = 'mysql';
 
-    protected $table = 'blog__categories';
+    protected $table = 'blog_categories';
     protected $fillable = [
         'blog_id',
         'category_id',

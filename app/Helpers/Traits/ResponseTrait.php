@@ -23,8 +23,7 @@ trait ResponseTrait
             }
 
             $response['data'] = $newData;
-        }
-        else {
+        } else {
             if ($data !== null) {
                 $response['data'] = $data;
             }
@@ -32,10 +31,36 @@ trait ResponseTrait
 
         return response()->json($response, 200, [], JSON_INVALID_UTF8_IGNORE);
     }
-
-    protected function successWithPaginate(string $message, LengthAwarePaginator $data, int $statusCode = 200,
-                                           ?array $additionalData = [], bool $isMergeAdditional = false): JsonResponse
+    protected function successWithPaginateNull(string $message, int $statusCode = 200): JsonResponse
     {
+        $newData['data'] = [];
+        $newData['meta'] = [
+            'pagination' => [
+                'total' => 0,
+                'page_size' => Helper::getPerPage(),
+                'current' => Helper::getCurrentPage(),
+                'total_pages' => 1,
+            ]
+        ];
+
+        return response()->json(
+            [
+                'code' => $statusCode,
+                'message' => $message,
+                'data' => $newData,
+            ],
+            200,
+            [],
+            JSON_INVALID_UTF8_IGNORE
+        );
+    }
+    protected function successWithPaginate(
+        string $message,
+        LengthAwarePaginator $data,
+        int $statusCode = 200,
+        ?array $additionalData = [],
+        bool $isMergeAdditional = false
+    ): JsonResponse {
         $newData['data'] = $data->items();
         $newData['meta'] = [
             'pagination' => [
@@ -52,8 +77,7 @@ trait ResponseTrait
                 if (empty($isExistData)) {
                     $newData['data'][] = $additionalData;
                 }
-            }
-            else {
+            } else {
                 foreach ($additionalData as $key => $value) {
                     $newData[$key] = $value;
                 }
@@ -65,7 +89,10 @@ trait ResponseTrait
                 'code' => $statusCode,
                 'message' => $message,
                 'data' => $newData,
-            ], 200, [], JSON_INVALID_UTF8_IGNORE
+            ],
+            200,
+            [],
+            JSON_INVALID_UTF8_IGNORE
         );
     }
 
@@ -76,7 +103,10 @@ trait ResponseTrait
                 'code' => $statusCode,
                 'message' => $message,
                 'errors' => $errors
-            ], 200, [], JSON_INVALID_UTF8_IGNORE
+            ],
+            200,
+            [],
+            JSON_INVALID_UTF8_IGNORE
         );
     }
 
@@ -86,7 +116,10 @@ trait ResponseTrait
             [
                 'code' => 404,
                 'message' => empty($message) ? __('general.not_found') : $message,
-            ], 200, [], JSON_INVALID_UTF8_IGNORE
+            ],
+            200,
+            [],
+            JSON_INVALID_UTF8_IGNORE
         );
     }
 

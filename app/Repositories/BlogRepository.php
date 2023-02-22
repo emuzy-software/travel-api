@@ -39,19 +39,13 @@ class BlogRepository implements BlogRepositoryInterface
         return $query->paginate(Helper::getPerPage(), ["*"], Helper::getPageName(), Helper::getCurrentPage());
     }
 
-    public function getById(int $mangaId): ?Blog
+    public function getById(int $blogId): ?Blog
     {
         return $this->model
             ->with([
                 'categories:id,title,is_active,description',
             ])
-            //            ->whereHas('categories', function ($q) {
-            //                $q->where('is_active', true);
-            //            })
-            //            ->whereHas('characters', function ($q) {
-            //                $q->where('is_active', true);
-            //            })
-            ->where('id', $mangaId)
+            ->where('id', $blogId)
             ->where('is_active', true)
             ->first();
     }
