@@ -8,7 +8,8 @@ use App\Repositories\CategoriesRepository;
 use App\Repositories\CategoriesRespositoryInterface;
 use App\Repositories\BlogRepository;
 use App\Repositories\BlogRepositoryInterface;
-
+use App\Repositories\BookingRepository;
+use App\Repositories\BookingRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(CategoriesRespositoryInterface::class, CategoriesRepository::class);
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
+        $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
     }
 
     /**

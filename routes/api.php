@@ -16,6 +16,7 @@ use \App\Http\Controllers\UserController;
 |
 */
 
+require __DIR__ . '/api/booking.php';
 require __DIR__ . '/api/blog.php';
 Route::post('login', [AuthController::class, 'login']);
 Route::get('categories', [CategoryController::class, 'index']);
