@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
 
@@ -15,8 +16,9 @@ use \App\Http\Controllers\UserController;
 |
 */
 
+require __DIR__ . '/api/blog.php';
 Route::post('login', [AuthController::class, 'login']);
-
+Route::get('categories', [CategoryController::class, 'index']);
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 

@@ -29,7 +29,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      * @param User $user
      * @return User|null
      */
-    public function verifyEmail(User $user):? User
+    public function verifyEmail(User $user): ?User
     {
         $nowTs = Carbon::now()->timestamp;
         $user->update([
