@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::post('logout', [AuthController::class, 'logout']);
-
+    Route::post('booking', [BookingController::class, 'store']);
     Route::get('info', [UserController::class, 'info']);
 });
