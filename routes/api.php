@@ -19,6 +19,7 @@ use \App\Http\Controllers\BookingController;
 
 require __DIR__ . '/api/booking.php';
 require __DIR__ . '/api/blog.php';
+Route::post('sign-up', [AuthController::class, 'signUp']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::group(['middleware' => ['auth:api']], function () {

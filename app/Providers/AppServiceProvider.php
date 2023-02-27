@@ -11,6 +11,12 @@ use App\Repositories\BlogRepositoryInterface;
 use App\Repositories\BookingRepository;
 use App\Repositories\BookingRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Services\UserService;
+use App\Services\UserServiceInterface;
+use App\Repositories\Authentication\UserVerifyTokenRepository;
+use App\Repositories\Authentication\UserVerifyTokenRepositoryInterface;
+use App\Repositories\Authentication\ResetPasswordTokenRepository;
+use App\Repositories\Authentication\ResetPasswordTokenRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,9 +26,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
         $this->app->bind(CategoriesRespositoryInterface::class, CategoriesRepository::class);
         $this->app->bind(BlogRepositoryInterface::class, BlogRepository::class);
         $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
+        $this->app->bind(UserVerifyTokenRepositoryInterface::class, UserVerifyTokenRepository::class);
+        $this->app->bind(ResetPasswordTokenRepositoryInterface::class, ResetPasswordTokenRepository::class);
     }
 
     /**

@@ -11,9 +11,38 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Services\UserServiceInterface;
+use App\Requests\Authentication\SignUpRequest;
+use Illuminate\Contracts\Auth\Guard;
 
 class AuthController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserServiceInterface $userService)
+    {
+        parent::__construct();
+        $this->userService = $userService;
+    }
+    public function signUp(SignUpRequest $request): JsonResponse
+    {
+        try {
+            $data = $request->only(['email', 'password', 'name']);
+            $emailChecked = $this->userService->findUserByEmail($data['email']);
+            if (!empty($emailChecked)) {
+                return $this->error(__('auth.email_exist'), null, 500);
+            }
+
+            $user = $this->userService->createUser($data);
+
+            return $this->success(__('general.success'), $user);
+        } catch (\Exception $exception) {
+            Log::error('signUp(): ' . json_encode($exception));
+            Log::error($exception);
+
+            return $this->error(__('general.server_error'), null, 500);
+        }
+    }
     public function login(LoginRequest $request): JsonResponse
     {
         try {
@@ -47,12 +76,10 @@ class AuthController extends Controller
             });
 
             return $this->success('Thành công', $result);
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             Log::error($error);
             return $this->error('Có lỗi xảy ra', null, 500);
-        }
-        catch (GuzzleException $e) {
+        } catch (GuzzleException $e) {
             Log::error($e);
             return $this->error('Có lỗi xảy ra', null, 500);
         }
@@ -66,13 +93,11 @@ class AuthController extends Controller
             $result = $this->makeToken($token, $expiresIn);
 
             return $this->success('Thành công', $result);
-        }
-        catch (\Exception $error) {
+        } catch (\Exception $error) {
             Log::error('Refresh token error message: ' . $error->getMessage());
 
             return $this->error('Có lỗi xảy ra', null, 500);
-        }
-        catch (GuzzleException $e) {
+        } catch (GuzzleException $e) {
             Log::error($e);
             return $this->error('Có lỗi xảy ra', null, 500);
         }
@@ -88,7 +113,15 @@ class AuthController extends Controller
             return $this->error('Có lỗi xảy ra', null, 500);
         }
     }
-
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return Guard
+     */
+    public function guard(): Guard
+    {
+        return Auth::guard();
+    }
     /**
      * Make token
      *
