@@ -17,6 +17,8 @@ use App\Repositories\Authentication\UserVerifyTokenRepository;
 use App\Repositories\Authentication\UserVerifyTokenRepositoryInterface;
 use App\Repositories\Authentication\ResetPasswordTokenRepository;
 use App\Repositories\Authentication\ResetPasswordTokenRepositoryInterface;
+use App\Repositories\ExperienceRepository;
+use App\Repositories\ExperienceRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BookingRepositoryInterface::class, BookingRepository::class);
         $this->app->bind(UserVerifyTokenRepositoryInterface::class, UserVerifyTokenRepository::class);
         $this->app->bind(ResetPasswordTokenRepositoryInterface::class, ResetPasswordTokenRepository::class);
+        $this->app->bind(ExperienceRepositoryInterface::class, ExperienceRepository::class);
     }
 
     /**

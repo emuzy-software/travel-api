@@ -17,6 +17,7 @@ use \App\Http\Controllers\BookingController;
 |
 */
 
+require __DIR__ . '/api/experience.php';
 require __DIR__ . '/api/booking.php';
 require __DIR__ . '/api/blog.php';
 Route::post('sign-up', [AuthController::class, 'signUp']);

@@ -108,7 +108,7 @@ class AuthController extends Controller
         try {
             Auth::logout();
 
-            return $this->success('Login thành công');
+            return $this->success('Logout thành công');
         } catch (\Exception $exception) {
             return $this->error('Có lỗi xảy ra', null, 500);
         }

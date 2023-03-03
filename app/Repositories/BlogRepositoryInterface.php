@@ -18,5 +18,5 @@ interface BlogRepositoryInterface
      * @param int $BlogId
      * @return Blog|null
      */
-    public function getById(int $mangaId): ?Blog;
+    public function getById(int $blogId): ?Blog;
 }
