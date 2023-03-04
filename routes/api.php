@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\BookingController;
@@ -26,6 +27,9 @@ Route::get('categories', [CategoryController::class, 'index']);
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
+    Route::post('blog', [BlogController::class, 'store']);
+    Route::put('blog/{id}', [BlogController::class, 'update']);
+    Route::delete('blog/{id}', [BlogController::class, 'destroy']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('booking', [BookingController::class, 'store']);
     Route::get('info', [UserController::class, 'info']);

@@ -4,9 +4,10 @@ namespace App\Repositories;
 
 use App\Helpers\Helper;
 use App\Models\Blog;
+use App\Helpers\Repository\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class BlogRepository implements BlogRepositoryInterface
+class BlogRepository extends BaseRepository implements BlogRepositoryInterface
 {
     protected $model;
 
@@ -39,7 +40,7 @@ class BlogRepository implements BlogRepositoryInterface
         return $query->paginate(Helper::getPerPage(), ["*"], Helper::getPageName(), Helper::getCurrentPage());
     }
 
-    public function getById(int $blogId): ?Blog
+    public function getByBlogId(int $blogId): ?Blog
     {
         return $this->model
             ->with([

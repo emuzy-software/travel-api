@@ -7,6 +7,8 @@ use App\Repositories\BlogRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\Helper;
 use App\Models\Blog_Categories;
+use App\Requests\Blog\BlogRequest;
+use App\Requests\Blog\UpdateBlogRequest;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -60,5 +62,51 @@ class BlogController extends Controller
         }
         $blog = $blog->toArray();
         return $this->success(__('general.success'), $blog, 200);
+    }
+    public function store(BlogRequest $request): JsonResponse
+    {
+        $data = $request->only([
+            'title',
+            'slug',
+            'is_active',
+            'content',
+            'description',
+        ]);
+
+        $blog = $this->blogRepository->create($data);
+        if (empty($blog)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+        return $this->success(__('general.success'), $blog);
+    }
+    public function update(UpdateBlogRequest $request, $blogId): JsonResponse
+    {
+        $data = $request->only(['content']);
+
+        $blog = $this->blogRepository->getByBlogId($blogId);
+        if (empty($blog)) {
+            return $this->error(__('general.blog_not_found'), null, 404);
+        }
+
+        $blog = $this->blogRepository->updateById($blogId, $data);
+        if (empty($blog)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+
+        return $this->success(__('general.success'), $blog);
+    }
+    public function destroy($blogId): JsonResponse
+    {
+        $blog = $this->blogRepository->getByBlogId($blogId);
+        if (empty($blog)) {
+            return $this->error(__('general.blog_not_found'), null, 404);
+        }
+
+        $blog = $this->blogRepository->deleteById($blogId);
+        if (empty($blog)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+
+        return $this->success(__('general.success'), true);
     }
 }

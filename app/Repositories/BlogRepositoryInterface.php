@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Blog;
+use App\Helpers\Repository\BaseRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface BlogRepositoryInterface
+interface BlogRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * @param array $conditions
@@ -18,5 +19,5 @@ interface BlogRepositoryInterface
      * @param int $BlogId
      * @return Blog|null
      */
-    public function getById(int $blogId): ?Blog;
+    public function getByBlogId(int $blogId): ?Blog;
 }
