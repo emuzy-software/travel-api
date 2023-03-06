@@ -28,4 +28,10 @@ class BookingRepository extends BaseRepository implements BookingRepositoryInter
 
         return $query->paginate(Helper::getPerPage(), ["*"], Helper::getPageName(), Helper::getCurrentPage());
     }
+    public function getByBookingId(int $bookingId): ?Booking
+    {
+        return $this->model
+            ->where('id', $bookingId)
+            ->first();
+    }
 }
