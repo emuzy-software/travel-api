@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Repository\BaseRepositoryInterface;
 use App\Models\Experience;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface ExperienceRepositoryInterface
+interface ExperienceRepositoryInterface extends BaseRepositoryInterface
 {
     /**
      * @param array $conditions
@@ -18,5 +19,5 @@ interface ExperienceRepositoryInterface
      * @param int $ExperienceId
      * @return Experience|null
      */
-    public function getById(int $experienceId): ?Experience;
+    public function  getByExperienceId(int $experienceId): ?Experience;
 }

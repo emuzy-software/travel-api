@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 use App\Helpers\Helper;
+use App\Helpers\Repository\BaseRepository;
 use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class CategoriesRepository implements CategoriesRespositoryInterface
+class CategoriesRepository extends BaseRepository implements CategoriesRespositoryInterface
 {
     protected $model;
 
@@ -33,9 +34,10 @@ class CategoriesRepository implements CategoriesRespositoryInterface
         return $query->paginate(Helper::getPerPage(), ["*"], Helper::getPageName(), Helper::getCurrentPage());
     }
 
-    public function getById(int $id): ?Category
+    public function getByCategoryId(int $id): ?Category
     {
         return Category::query()
+
             ->where('id', $id)
             ->first();
     }

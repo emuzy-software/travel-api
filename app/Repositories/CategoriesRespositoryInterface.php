@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-
+use App\Helpers\Repository\BaseRepositoryInterface;
 use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-interface CategoriesRespositoryInterface
+interface CategoriesRespositoryInterface extends BaseRepositoryInterface
 {
     public function getCategories(?string $searchText, array $orderBy): LengthAwarePaginator;
 
-    public function getById(int $id): ?Category;
+    public function getByCategoryId(int $id): ?Category;
 }

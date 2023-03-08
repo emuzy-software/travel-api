@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CategoriesRespositoryInterface;
 use App\Repositories\BlogRepositoryInterface;
+use App\Repositories\CategoryBlogRespositoryInterface;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\Helper;
 use App\Models\Blog_Categories;
@@ -16,12 +17,14 @@ class BlogController extends Controller
     protected $categoryRepository;
 
     protected $blogRepository;
+    protected $CategotyBlogRepository;
 
-    public function __construct(BlogRepositoryInterface $blogRepository, CategoriesRespositoryInterface $categoryRepository)
+    public function __construct(BlogRepositoryInterface $blogRepository, CategoriesRespositoryInterface $categoryRepository, CategoriesRespositoryInterface $CategotyBlogRepository)
     {
         parent::__construct();
         $this->blogRepository = $blogRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->CategotyBlogRepository = $CategotyBlogRepository;
     }
 
     public function index(Request $request): JsonResponse
@@ -33,7 +36,7 @@ class BlogController extends Controller
         $orderBy = Helper::orderBy($request->get('sort_by'), $request->get('sort_direction'), $orderListFiled);
 
         if (!empty($data['category_id'])) {
-            $category = $this->categoryRepository->getById($data['category_id']);
+            $category = $this->categoryRepository->getByCategoryId($data['category_id']);
             if (empty($category)) {
                 return $this->error(__('general.not_found_category'), [], 404);
             }
@@ -77,6 +80,10 @@ class BlogController extends Controller
         if (empty($blog)) {
             return $this->error(__('general.server_error'), null, 500);
         }
+        // $this->CategotyBlogRepository->create([
+        //     'blog_id' => $this->blogRepository->id,
+        //     'category_id' => $this->categoryRepository->id,
+        // ]);
         return $this->success(__('general.success'), $blog);
     }
     public function update(UpdateBlogRequest $request, $blogId): JsonResponse

@@ -6,6 +6,8 @@ use App\Models\Experience;
 use App\Repositories\ExperienceRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\Helper;
+use App\Requests\Experience\ExperienceRequest;
+use App\Requests\Experience\UpdateExperienceRequest;
 use Illuminate\Http\Request;
 
 class ExperienceController extends Controller
@@ -19,7 +21,59 @@ class ExperienceController extends Controller
         parent::__construct();
         $this->experienceRepository = $experienceRepository;
     }
+    public function store(ExperienceRequest $request): JsonResponse
+    {
+        $data = $request->only([
 
+            'title',
+            'slug',
+            'is_active',
+            'image',
+            'description',
+        ]);
+
+        $experience = $this->experienceRepository->create($data);
+        if (empty($experience)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+        return $this->success(__('general.success'), $experience);
+    }
+    public function update(UpdateExperienceRequest $request, $experienceId): JsonResponse
+    {
+        $data = $request->only([
+            'title',
+            'slug',
+            'is_active',
+            'image',
+            'description',
+        ]);
+
+        $experience = $this->experienceRepository->getByExperienceId($experienceId);
+        if (empty($experience)) {
+            return $this->error(__('general.experience_not_found'), null, 404);
+        }
+
+        $experience = $this->experienceRepository->updateById($experienceId, $data);
+        if (empty($experience)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+
+        return $this->success(__('general.success'), $experience);
+    }
+    public function destroy($experienceId): JsonResponse
+    {
+        $experience = $this->experienceRepository->getByexperienceId($experienceId);
+        if (empty($experience)) {
+            return $this->error(__('general.experience_not_found'), null, 404);
+        }
+
+        $experience = $this->experienceRepository->deleteById($experienceId);
+        if (empty($experience)) {
+            return $this->error(__('general.server_error'), null, 500);
+        }
+
+        return $this->success(__('general.success'), true);
+    }
     public function index(Request $request): JsonResponse
     {
         $data['experience_ids'] = [];

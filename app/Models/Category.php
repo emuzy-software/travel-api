@@ -13,7 +13,6 @@ class Category extends Model
         'slug',
         'is_active',
         'total_blog',
-        'image',
         'description',
     ];
     protected $casts = [

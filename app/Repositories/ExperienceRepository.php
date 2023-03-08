@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 use App\Helpers\Helper;
+use App\Helpers\Repository\BaseRepository;
 use App\Models\Experience;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ExperienceRepository implements ExperienceRepositoryInterface
+class ExperienceRepository extends BaseRepository  implements ExperienceRepositoryInterface
 {
     protected $model;
 
@@ -38,7 +39,7 @@ class ExperienceRepository implements ExperienceRepositoryInterface
         return $query->paginate(Helper::getPerPage(), ["*"], Helper::getPageName(), Helper::getCurrentPage());
     }
 
-    public function getById(int $experienceId): ?Experience
+    public function getByExperienceId(int $experienceId): ?Experience
     {
         return $this->model
             ->where('id', $experienceId)

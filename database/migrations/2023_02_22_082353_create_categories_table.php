@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('slug');
             $table->tinyInteger('is_active')->default(true);
             $table->integer('total_blog')->nullable()->default(0);
-            $table->string('image')->nullable();
             $table->string('description')->nullable();
             $table->integer('created_at');
             $table->integer('updated_at');

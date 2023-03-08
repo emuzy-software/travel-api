@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Requests\Blog;
+namespace App\Requests\Experience;
 
 use App\Requests\ApiRequest;
 
-class UpdateBlogRequest extends ApiRequest
+class ExperienceRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,20 +15,14 @@ class UpdateBlogRequest extends ApiRequest
     {
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'title' => 'required|min:3',
             'slug' => 'required|min:3',
             'is_active' => 'required|boolean',
-            'content' => 'required|min:3',
-            'description' => 'required|min:3',
+            'image' => 'required',
+            'description' => 'required'
         ];
     }
 }
