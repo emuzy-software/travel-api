@@ -44,7 +44,7 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     {
         return $this->model
             ->with([
-                'categories:id,title,is_active,description',
+                'categories:id,title,description',
             ])
             ->where('id', $blogId)
             ->where('is_active', true)

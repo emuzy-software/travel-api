@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\CategoriesRespositoryInterface;
 use App\Repositories\BlogRepositoryInterface;
-use App\Repositories\CategoryBlogRespositoryInterface;
+use App\Repositories\CategoryBlogRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\Helper;
 use App\Models\Blog_Categories;
@@ -15,16 +15,16 @@ use Illuminate\Http\Request;
 class BlogController extends Controller
 {
     protected $categoryRepository;
-
+    protected $categoryBlog;
     protected $blogRepository;
-    protected $CategotyBlogRepository;
 
-    public function __construct(BlogRepositoryInterface $blogRepository, CategoriesRespositoryInterface $categoryRepository, CategoriesRespositoryInterface $CategotyBlogRepository)
+
+    public function __construct(BlogRepositoryInterface $blogRepository, CategoriesRespositoryInterface $categoryRepository, CategoryBlogRepositoryInterface $categoryBlog)
     {
         parent::__construct();
         $this->blogRepository = $blogRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->CategotyBlogRepository = $CategotyBlogRepository;
+        $this->categoryBlog = $categoryBlog;
     }
 
     public function index(Request $request): JsonResponse
@@ -59,7 +59,7 @@ class BlogController extends Controller
 
     public function show(string $blogId): JsonResponse
     {
-        $blog = $this->blogRepository->getById($blogId);
+        $blog = $this->blogRepository->getByBlogId($blogId);
         if (empty($blog)) {
             return $this->error(__('general.not_found'), [], 404);
         }
@@ -80,10 +80,11 @@ class BlogController extends Controller
         if (empty($blog)) {
             return $this->error(__('general.server_error'), null, 500);
         }
-        // $this->CategotyBlogRepository->create([
-        //     'blog_id' => $this->blogRepository->id,
-        //     'category_id' => $this->categoryRepository->id,
-        // ]);
+
+        $this->categoryBlog->create([
+            'blog_id' => $blog->id,
+            'category_id' => $request->only(['category_id']),
+        ]);
         return $this->success(__('general.success'), $blog);
     }
     public function update(UpdateBlogRequest $request, $blogId): JsonResponse

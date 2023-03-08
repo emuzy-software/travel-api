@@ -26,6 +26,7 @@ class BlogRequest extends ApiRequest
         return [
             'title' => 'required|min:3',
             'slug' => 'required|min:3',
+            'category_id' => 'required',
             'is_active' => 'required|boolean',
             'content' => 'required|min:3',
             'description' => 'required|min:3',
